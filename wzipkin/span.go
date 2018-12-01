@@ -82,9 +82,11 @@ func toZipkinSpanOptions(impl *wtracing.SpanOptionImpl) []zipkin.SpanOption {
 			Port:        re.Port,
 		}))
 	}
+	var parentSpanCtx model.SpanContext
 	if parent := impl.ParentSpan; parent != nil {
-		zipkinSpanOptions = append(zipkinSpanOptions, zipkin.Parent(toZipkinSpanContext(*parent)))
+		parentSpanCtx = toZipkinSpanContext(*parent)
 	}
+	zipkinSpanOptions = append(zipkinSpanOptions, zipkin.Parent(parentSpanCtx))
 	return zipkinSpanOptions
 }
 

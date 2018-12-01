@@ -82,12 +82,16 @@ func WithKind(kind Kind) SpanOption {
 	})
 }
 
+// WithParent sets the parent span to be the specified span. If the provided span is nil, the parent span is explicitly
+// set to be nil (indicating that the created span is a root span).
 func WithParent(parent Span) SpanOption {
 	return spanOptionFn(func(impl *SpanOptionImpl) {
+		var parentCtx *SpanContext
 		if parent != nil {
 			sc := parent.Context()
-			impl.ParentSpan = &sc
+			parentCtx = &sc
 		}
+		impl.ParentSpan = parentCtx
 	})
 }
 
