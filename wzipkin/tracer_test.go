@@ -60,7 +60,7 @@ func TestTracerStartChildSpan(t *testing.T) {
 
 	rootSpan := tracer.StartSpan("myRootSpan")
 
-	childSpan := tracer.StartSpan("myChildSpan", wtracing.WithParent(rootSpan.Context()))
+	childSpan := tracer.StartSpan("myChildSpan", wtracing.WithParent(rootSpan))
 	childSpan.Finish()
 
 	assert.NotEqual(t, reporterMap["traceID"], wtracing.TraceID(""))

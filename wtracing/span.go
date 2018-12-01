@@ -82,9 +82,12 @@ func WithKind(kind Kind) SpanOption {
 	})
 }
 
-func WithParent(sc SpanContext) SpanOption {
+func WithParent(parent Span) SpanOption {
 	return spanOptionFn(func(impl *SpanOptionImpl) {
-		impl.ParentSpan = &sc
+		if parent != nil {
+			sc := parent.Context()
+			impl.ParentSpan = &sc
+		}
 	})
 }
 
