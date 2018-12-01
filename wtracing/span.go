@@ -82,15 +82,21 @@ func WithKind(kind Kind) SpanOption {
 	})
 }
 
-// WithParent sets the parent span to be the specified span. If the provided span is nil, the parent span is explicitly
-// set to be nil (indicating that the created span is a root span).
+// WithParent sets the parent SpanContext to be the context of the specified span. If the provided span is nil, the
+// parent span context is explicitly set to be nil (indicating that the created span is a root span).
 func WithParent(parent Span) SpanOption {
+	var parentCtx *SpanContext
+	if parent != nil {
+		sc := parent.Context()
+		parentCtx = &sc
+	}
+	return WithParentSpanContext(parentCtx)
+}
+
+// WithParentSpanContext sets the parent span context to be the specified span context. If the provided span context is
+// nil, the parent span context is explicitly set to be nil (indicating that the created span is a root span).
+func WithParentSpanContext(parentCtx *SpanContext) SpanOption {
 	return spanOptionFn(func(impl *SpanOptionImpl) {
-		var parentCtx *SpanContext
-		if parent != nil {
-			sc := parent.Context()
-			parentCtx = &sc
-		}
 		impl.ParentSpan = parentCtx
 	})
 }
