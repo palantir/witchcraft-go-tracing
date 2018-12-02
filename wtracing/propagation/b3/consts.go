@@ -12,8 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package wtracing
+package b3
 
-type SpanExtractor func() SpanContext
-
-type SpanInjector func(sc SpanContext)
+const (
+	b3TraceID      = "X-B3-TraceId"
+	b3SpanID       = "X-B3-SpanId"
+	b3ParentSpanID = "X-B3-ParentSpanId"
+	b3Sampled      = "X-B3-Sampled"
+	b3Flags        = "X-B3-Flags"
+)
