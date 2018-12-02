@@ -35,23 +35,26 @@ func SpanExtractor(req *http.Request) wtracing.SpanExtractor {
 
 		traceID := strings.ToLower(req.Header.Get(b3TraceID))
 		if traceID == "" {
-			errMsgs = append(errMsgs, "TraceID must be present")
+			errMsgs = append(errMsgs, "TraceID missing")
 		}
 		sc.TraceID = wtracing.TraceID(traceID)
 
 		spanID := strings.ToLower(req.Header.Get(b3SpanID))
 		if spanID == "" {
-			errMsgs = append(errMsgs, "SpanID must be present")
+			errMsgs = append(errMsgs, "SpanID missing")
 		}
 		sc.ID = wtracing.SpanID(spanID)
 
 		var parentIDVal *wtracing.SpanID
 		if parentID := strings.ToLower(req.Header.Get(b3ParentSpanID)); parentID != "" {
 			if traceID == "" || spanID == "" {
-				errMsgs = append(errMsgs, "ParentID was present but TraceID or SpanID was not")
-				errSafeParams["parentId"] = parentID
-				errSafeParams["traceId"] = traceID
-				errSafeParams["spanId"] = spanID
+				if traceID == "" && spanID == "" {
+					errMsgs = append(errMsgs, "ParentID present but TraceID and SpanID missing")
+				} else if traceID == "" {
+					errMsgs = append(errMsgs, "ParentID present but TraceID missing")
+				} else {
+					errMsgs = append(errMsgs, "ParentID present but SpanID missing")
+				}
 			}
 			parentIDVal = (*wtracing.SpanID)(&parentID)
 		}
@@ -68,7 +71,7 @@ func SpanExtractor(req *http.Request) wtracing.SpanExtractor {
 		case "":
 			// keep nil
 		default:
-			errMsgs = append(errMsgs, "Sampled value was invalid")
+			errMsgs = append(errMsgs, "Sampled invalid")
 			errSafeParams["sampledHeaderVal"] = sampledHeader
 		}
 		debug := req.Header.Get(b3Flags) == "1"
@@ -79,7 +82,7 @@ func SpanExtractor(req *http.Request) wtracing.SpanExtractor {
 		sc.Debug = debug
 
 		if len(errMsgs) > 0 {
-			sc.Err = werror.Error(strings.Join(errMsgs, ", "), werror.SafeParams(errSafeParams))
+			sc.Err = werror.Error(strings.Join(errMsgs, "; "), werror.SafeParams(errSafeParams))
 		}
 		return sc
 	}
