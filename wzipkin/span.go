@@ -25,18 +25,16 @@ import (
 
 func fromZipkinSpan(span zipkin.Span) wtracing.Span {
 	return &spanImpl{
-		SpanContext: fromZipkinSpanContext(span.Context()),
-		span:        span,
+		span: span,
 	}
 }
 
 type spanImpl struct {
-	wtracing.SpanContext
 	span zipkin.Span
 }
 
 func (s *spanImpl) Context() wtracing.SpanContext {
-	return s.SpanContext
+	return fromZipkinSpanContext(s.span.Context())
 }
 
 func (s *spanImpl) Finish() {
