@@ -43,6 +43,10 @@ func RunTests(t *testing.T, provider ImplProvider) {
 	t.Run(fmt.Sprintf("%s WithParent", provider.Name), func(t *testing.T) {
 		testWithParent(t, tracer)
 	})
+
+	t.Run(fmt.Sprintf("%s WithParentSpanContext", provider.Name), func(t *testing.T) {
+		testWithParentSpanContext(t, tracer)
+	})
 }
 
 func testWithParent(t *testing.T, tracer wtracing.Tracer) {
@@ -78,5 +82,64 @@ func testWithParent(t *testing.T, tracer wtracing.Tracer) {
 		assert.NotEqual(t, idHexVal, string(newSpan.Context().TraceID)) // TraceID should be distinct
 		assert.NotEqual(t, idHexVal, string(newSpan.Context().ID))      // SpanID should be distinct
 		assert.Nil(t, newSpan.Context().ParentID)                       // ParentID should be nil
+	})
+
+	t.Run("set parent with only TraceID", func(t *testing.T) {
+		isSampled := true
+		testParentSpan := noopFinishSpan(wtracing.SpanContext{
+			TraceID: idHexVal,
+			Sampled: &isSampled,
+		})
+		newSpan := tracer.StartSpan("testSpan",
+			wtracing.WithParent(testParentSpan),
+		)
+
+		assert.Equal(t, idHexVal, string(newSpan.Context().TraceID)) // TraceID should be equal to parent
+		assert.Equal(t, idHexVal, string(newSpan.Context().ID))      // SpanID should also be equal to parent (because parent was not valid, this creates a new root span)
+		assert.Nil(t, newSpan.Context().ParentID)                    // ParentID should be nil
+	})
+}
+
+func testWithParentSpanContext(t *testing.T, tracer wtracing.Tracer) {
+	const idHexVal = "6c2f558d62a7085f"
+
+	t.Run("set valid parent context", func(t *testing.T) {
+		isSampled := true
+		testParentSpanCtx := wtracing.SpanContext{
+			TraceID: idHexVal,
+			ID:      idHexVal,
+			Sampled: &isSampled,
+		}
+
+		newSpan := tracer.StartSpan("testSpan", wtracing.WithParentSpanContext(testParentSpanCtx))
+
+		assert.Equal(t, idHexVal, string(newSpan.Context().TraceID))   // TraceID should be equal to parent
+		assert.NotEqual(t, idHexVal, string(newSpan.Context().ID))     // SpanID should be distinct
+		assert.Equal(t, idHexVal, string(*newSpan.Context().ParentID)) // ParentID should match parent
+	})
+
+	t.Run("set empty parent context", func(t *testing.T) {
+		newSpan := tracer.StartSpan("testSpan",
+			wtracing.WithParentSpanContext(wtracing.SpanContext{}),
+		)
+
+		assert.NotEqual(t, idHexVal, string(newSpan.Context().TraceID)) // TraceID should be distinct
+		assert.NotEqual(t, idHexVal, string(newSpan.Context().ID))      // SpanID should be distinct
+		assert.Nil(t, newSpan.Context().ParentID)                       // ParentID should be nil
+	})
+
+	t.Run("set parent context with only TraceID", func(t *testing.T) {
+		isSampled := true
+		testParentSpanContext := wtracing.SpanContext{
+			TraceID: idHexVal,
+			Sampled: &isSampled,
+		}
+		newSpan := tracer.StartSpan("testSpan",
+			wtracing.WithParentSpanContext(testParentSpanContext),
+		)
+
+		assert.Equal(t, idHexVal, string(newSpan.Context().TraceID)) // TraceID should be equal to parent
+		assert.Equal(t, idHexVal, string(newSpan.Context().ID))      // SpanID should also be equal to parent (because parent was not valid, this creates a new root span)
+		assert.Nil(t, newSpan.Context().ParentID)                    // ParentID should be nil
 	})
 }
