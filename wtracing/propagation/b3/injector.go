@@ -36,11 +36,11 @@ func SpanInjector(req *http.Request) wtracing.SpanInjector {
 		}
 
 		if sc.Debug {
-			req.Header.Set(b3Flags, "1")
+			req.Header.Set(b3Flags, trueHeaderVal)
 		} else if sampled := sc.Sampled; sampled != nil {
-			sampledVal := "0"
+			sampledVal := falseHeaderVal
 			if *sampled {
-				sampledVal = "1"
+				sampledVal = trueHeaderVal
 			}
 			req.Header.Set(b3Sampled, sampledVal)
 		}

@@ -62,10 +62,10 @@ func SpanExtractor(req *http.Request) wtracing.SpanExtractor {
 
 		var sampledVal *bool
 		switch sampledHeader := strings.ToLower(req.Header.Get(b3Sampled)); sampledHeader {
-		case "0", "false":
+		case falseHeaderVal, "false":
 			boolVal := false
 			sampledVal = &boolVal
-		case "1", "true":
+		case trueHeaderVal, "true":
 			boolVal := true
 			sampledVal = &boolVal
 		case "":
@@ -74,7 +74,7 @@ func SpanExtractor(req *http.Request) wtracing.SpanExtractor {
 			errMsgs = append(errMsgs, "Sampled invalid")
 			errSafeParams["sampledHeaderVal"] = sampledHeader
 		}
-		debug := req.Header.Get(b3Flags) == "1"
+		debug := req.Header.Get(b3Flags) == trueHeaderVal
 		if debug {
 			sampledVal = nil
 		}

@@ -20,4 +20,7 @@ const (
 	b3ParentSpanID = "X-B3-ParentSpanId"
 	b3Sampled      = "X-B3-Sampled"
 	b3Flags        = "X-B3-Flags"
+
+	falseHeaderVal = "0"
+	trueHeaderVal  = "1"
 )
