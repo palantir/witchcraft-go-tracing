@@ -1,5 +1,7 @@
 witchcraft-go-tracing
 =====================
+[![](https://godoc.org/github.com/palantir/witchcraft-go-tracing?status.svg)](http://godoc.org/github.com/palantir/witchcraft-go-tracing)
+
 `witchcraft-go-tracing` defines interfaces for implementing `zipkin`-style tracing and provides an implementation that 
 uses [openzipkin/zipkin-go](https://github.com/openzipkin/zipkin-go). The defined APIs mirror the `zipkin-go` APIs
 closely, but are defined separately so that the underlying implementation can be changed and so that `witchcraft` 
