@@ -54,3 +54,7 @@ workflows:
 notify:
   webhooks:
     - url: https://parana.palantir.build/hook
+template.sh references an invalid template: go-library, available options: ./templates/frontend-library-oss.config.yml
+./templates/go-distribution-oss.config.yml
+./templates/go-library-oss.config.yml
+./templates/java-library-oss.config.yml
