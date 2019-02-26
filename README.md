@@ -102,12 +102,20 @@ with the above as:
 
 ```go
 span, ctx := wtracing.StartSpanFromContext(ctx, wtracing.TracerFromContext(ctx), spanName)
-// span will be nil if tracer is nil (not set on context). If that is known to never be the case, this check can be
-// omitted (but line will panic if there is ever a situation where the context does not have a tracer set) 
-if span != nil {
-    defer span.Finish()
-}
-``` 
+// note that this will panic if there is ever a situation where the context does not have a tracer set 
+defer span.Finish()
+```
+
+The above usage is suitable in applications where a tracer is always known to be set on a context and it is acceptable
+to panic if this is not the case.
+
+In cases where a tracer may not be set on a context and the desired fallback behavior is a no-op span rather than a
+panic, the following pattern can be used instead:
+
+```go
+span, ctx := wtracing.StartSpanFromTracerInContext(ctx, spanName)
+defer span.Finish()
+```  
 
 ### Injecting/extracting spans to deal with multi-process spans
 Communication that occurs at the process boundary (for example, incoming and outgoing HTTP requests to/from other 
