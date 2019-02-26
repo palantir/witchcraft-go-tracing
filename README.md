@@ -101,7 +101,7 @@ If the tracer is set on the context, it can be accessed using `TracerFromContext
 with the above as:
 
 ```go
-span, ctx := wtracing.StartSpanFromContext(wtracing.TracerFromContext(ctx), ctx, spanName)
+span, ctx := wtracing.StartSpanFromContext(ctx, wtracing.TracerFromContext(ctx), spanName)
 // span will be nil if tracer is nil (not set on context). If that is known to never be the case, this check can be
 // omitted (but line will panic if there is ever a situation where the context does not have a tracer set) 
 if span != nil {
