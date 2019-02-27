@@ -35,6 +35,17 @@
   revision = "69ecd8453e7ae12535835677d6bfab1b07e61b93"
 
 [[projects]]
+  name = "github.com/palantir/witchcraft-go-tracing"
+  packages = [
+    "wtracing",
+    "wtracing/propagation/b3",
+    "wtracing/wtracingtests",
+    "wzipkin",
+  ]
+  revision = "06a902b736007545fda81c7cc55fcbe700699bd3"
+  version = "v1.1.0"
+
+[[projects]]
   name = "github.com/pmezard/go-difflib"
   packages = ["difflib"]
   revision = "792786c7400a136282c1664665ae0a8db921c6c2"
@@ -52,6 +63,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "d08f714e1ab717f02d9b3f6b629457f29eb486979b4a77fff199d00fc1390b63"
+  inputs-digest = "98b3234d97c3a1131919963715277cebf7ca54553210971b9f257fed80071bf6"
   solver-name = "gps-cdcl"
   solver-version = 1
