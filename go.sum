@@ -29,8 +29,8 @@ github.com/onsi/ginkgo v1.7.0/go.mod h1:lLunBs/Ym6LB5Z9jYTR76FiuTmxDTDusOGeTQH+W
 github.com/onsi/gomega v1.4.3/go.mod h1:ex+gbHU/CVuBBDIJjb2X0qEXbFg53c61hWP/1CpauHY=
 github.com/openzipkin/zipkin-go v0.2.2 h1:nY8Hti+WKaP0cRsSeQ026wU03QsM762XBeCXBb9NAWI=
 github.com/openzipkin/zipkin-go v0.2.2/go.mod h1:NaW6tEwdmWMaCDZzg8sh+IBNOxHMPnhQw8ySjnjRyN4=
-github.com/palantir/witchcraft-go-error v1.2.0 h1:YFoZ8VC0ZLCGuhqM9iqdflUrTHGQmc3DC4GXGDZkhfY=
-github.com/palantir/witchcraft-go-error v1.2.0/go.mod h1:/cl2dMkuBbnfxDtFiC//8JfvZxmRkYRhgv3bBux9AD0=
+github.com/palantir/witchcraft-go-error v1.3.0 h1:1FUvIv+jS22t81uPI0Q5JEwzBDigClqGJJkLTuE8sZI=
+github.com/palantir/witchcraft-go-error v1.3.0/go.mod h1:/cl2dMkuBbnfxDtFiC//8JfvZxmRkYRhgv3bBux9AD0=
 github.com/palantir/witchcraft-go-params v1.1.0 h1:siRqQv9TuJ0qY2JK5Svd3/rGQQCWvNnjI2OGAftm8gc=
 github.com/palantir/witchcraft-go-params v1.1.0/go.mod h1:HH+l5b0binfqBJ21qVvQVOJp6s2/I6ld0NEWnaEgWvI=
 github.com/pierrec/lz4 v1.0.2-0.20190131084431-473cd7ce01a1/go.mod h1:3/3N9NVKO0jef7pBehbT1qWhCMrIgbYNnFAZCqQ5LRc=
