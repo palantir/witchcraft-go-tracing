@@ -38,6 +38,7 @@ type SpanModel struct {
 	Duration       time.Duration
 	LocalEndpoint  *Endpoint
 	RemoteEndpoint *Endpoint
+	Tags           map[string]string
 }
 
 type SpanContext struct {

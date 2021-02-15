@@ -66,6 +66,7 @@ func fromZipkinSpanModel(spanModel model.SpanModel) wtracing.SpanModel {
 		Duration:       spanModel.Duration,
 		LocalEndpoint:  fromZipkinEndpoint(spanModel.LocalEndpoint),
 		RemoteEndpoint: fromZipkinEndpoint(spanModel.RemoteEndpoint),
+		Tags:           spanModel.Tags,
 	}
 }
 
