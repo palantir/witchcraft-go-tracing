@@ -108,7 +108,7 @@ func TestTracerStartSpanWithTags(t *testing.T) {
 	assert.NotEqual(t, reporterMap["duration"], nil)
 	assert.Equal(t, reporterMap["localEndpoint"].(*wtracing.Endpoint), (*wtracing.Endpoint)(nil))
 	assert.Equal(t, reporterMap["remoteEndpoint"].(*wtracing.Endpoint), (*wtracing.Endpoint)(nil))
-	assert.Equal(t, reporterMap["tags"].(map[string]string), map[string]string{"key0":"value0"})
+	assert.Equal(t, reporterMap["tags"].(map[string]string), map[string]string{"key0": "value0"})
 }
 
 type testReporter struct {
