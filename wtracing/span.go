@@ -116,7 +116,7 @@ func WithRemoteEndpoint(endpoint *Endpoint) SpanOption {
 func WithSpanTag(name, value string) SpanOption {
 	return spanOptionFn(func(impl *SpanOptionImpl) {
 		impl.Tags = append(impl.Tags, Tag{
-			Name: name,
+			Name:  name,
 			Value: value,
 		})
 	})
