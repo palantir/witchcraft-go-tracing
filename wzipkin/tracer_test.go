@@ -48,6 +48,7 @@ func TestTracerStartSpan(t *testing.T) {
 	assert.NotEqual(t, reporterMap["duration"], nil)
 	assert.Equal(t, reporterMap["localEndpoint"].(*wtracing.Endpoint), (*wtracing.Endpoint)(nil))
 	assert.Equal(t, reporterMap["remoteEndpoint"].(*wtracing.Endpoint), (*wtracing.Endpoint)(nil))
+	assert.Equal(t, reporterMap["tags"].(map[string]string), map[string]string{})
 }
 
 func TestTracerStartChildSpan(t *testing.T) {
@@ -77,8 +78,37 @@ func TestTracerStartChildSpan(t *testing.T) {
 	assert.NotEqual(t, reporterMap["duration"], nil)
 	assert.Equal(t, reporterMap["localEndpoint"].(*wtracing.Endpoint), (*wtracing.Endpoint)(nil))
 	assert.Equal(t, reporterMap["remoteEndpoint"].(*wtracing.Endpoint), (*wtracing.Endpoint)(nil))
+	assert.Equal(t, reporterMap["tags"].(map[string]string), map[string]string{})
 
 	rootSpan.Finish()
+}
+
+func TestTracerStartSpanWithTags(t *testing.T) {
+	reporterMap := make(map[string]interface{})
+
+	tracer, err := wzipkin.NewTracer(&testReporter{
+		reporterMap: reporterMap,
+	})
+	require.NoError(t, err)
+
+	span := tracer.StartSpan("mySpan", wtracing.WithSpanTag("key0", "value0"))
+	span.Finish()
+
+	assert.NotEqual(t, reporterMap["traceID"], wtracing.TraceID(""))
+	assert.NotEqual(t, reporterMap["spanID"], wtracing.SpanID(""))
+	assert.Equal(t, reporterMap["traceID"], wtracing.TraceID(reporterMap["spanID"].(wtracing.SpanID)))
+	assert.Equal(t, reporterMap["parentID"], (*wtracing.SpanID)(nil))
+	assert.Equal(t, reporterMap["debug"], false)
+	assert.Equal(t, *reporterMap["sampled"].(*bool), true)
+	assert.Equal(t, reporterMap["err"], (error)(nil))
+
+	assert.Equal(t, reporterMap["name"], "mySpan")
+	assert.Equal(t, reporterMap["kind"], wtracing.Kind(""))
+	assert.NotEqual(t, reporterMap["timestamp"], nil)
+	assert.NotEqual(t, reporterMap["duration"], nil)
+	assert.Equal(t, reporterMap["localEndpoint"].(*wtracing.Endpoint), (*wtracing.Endpoint)(nil))
+	assert.Equal(t, reporterMap["remoteEndpoint"].(*wtracing.Endpoint), (*wtracing.Endpoint)(nil))
+	assert.Equal(t, reporterMap["tags"].(map[string]string), map[string]string{"key0":"value0"})
 }
 
 type testReporter struct {
@@ -99,6 +129,7 @@ func (r *testReporter) Send(span wtracing.SpanModel) {
 	r.reporterMap["duration"] = span.Duration
 	r.reporterMap["localEndpoint"] = span.LocalEndpoint
 	r.reporterMap["remoteEndpoint"] = span.RemoteEndpoint
+	r.reporterMap["tags"] = span.Tags
 }
 
 func (r *testReporter) Close() error {
