@@ -100,6 +100,18 @@ func testWithParent(t *testing.T, tracer wtracing.Tracer) {
 		assert.Equal(t, idHexVal, string(newSpan.Context().ID))      // SpanID should also be equal to parent (because parent was not valid, this creates a new root span)
 		assert.Nil(t, newSpan.Context().ParentID)                    // ParentID should be nil
 	})
+
+	t.Run("set tag", func(t *testing.T) {
+		isSampled := true
+		testParentSpan := noopFinishSpan(wtracing.SpanContext{
+			TraceID: idHexVal,
+			Sampled: &isSampled,
+		})
+		newSpan := tracer.StartSpan("testSpan",
+			wtracing.WithParent(testParentSpan),
+		)
+		newSpan.Tag("key","value")
+	})
 }
 
 func testWithParentSpanContext(t *testing.T, tracer wtracing.Tracer) {
