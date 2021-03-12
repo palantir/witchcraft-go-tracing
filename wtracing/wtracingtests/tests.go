@@ -34,6 +34,8 @@ func (s noopFinishSpan) Context() wtracing.SpanContext {
 	return wtracing.SpanContext(s)
 }
 
+func (s noopFinishSpan) Tag(key string, value string) {}
+
 func (s noopFinishSpan) Finish() {}
 
 func RunTests(t *testing.T, provider ImplProvider) {
