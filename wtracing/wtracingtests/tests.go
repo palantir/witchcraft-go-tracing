@@ -38,6 +38,19 @@ func (s noopFinishSpan) Tag(key string, value string) {}
 
 func (s noopFinishSpan) Finish() {}
 
+type oneSpanReporter struct {
+	spanModel wtracing.SpanModel
+}
+
+func (r *oneSpanReporter) Send(spanModel wtracing.SpanModel) {
+	r.spanModel = spanModel
+}
+
+func (r *oneSpanReporter) Close() error {
+	r.spanModel = wtracing.SpanModel{}
+	return nil
+}
+
 func RunTests(t *testing.T, provider ImplProvider) {
 	tracer, err := provider.TracerCreator(wtracing.NewNoopReporter())
 	require.NoError(t, err)
@@ -48,6 +61,32 @@ func RunTests(t *testing.T, provider ImplProvider) {
 
 	t.Run(fmt.Sprintf("%s WithParentSpanContext", provider.Name), func(t *testing.T) {
 		testWithParentSpanContext(t, tracer)
+	})
+
+	t.Run(fmt.Sprintf("%s Tags", provider.Name), func(t *testing.T) {
+		oneSpanReporter := oneSpanReporter{}
+		oneSpanTracer, err := provider.TracerCreator(&oneSpanReporter)
+		require.NoError(t, err)
+		// assert that tags passed as span options make it through to the span model
+		span0 := oneSpanTracer.StartSpan("span0", wtracing.WithSpanTag("name0", "value0"))
+		span0.Finish()
+		value0, ok0 := oneSpanReporter.spanModel.Tags["name0"]
+		assert.True(t, ok0)
+		assert.Equal(t, "value0", value0)
+		// assert that tags after creation override existing values
+		span1 := oneSpanTracer.StartSpan("span1", wtracing.WithSpanTag("name1", "value1a"))
+		span1.Tag("name1", "value1b")
+		span1.Finish()
+		value1, ok1 := oneSpanReporter.spanModel.Tags["name1"]
+		assert.True(t, ok1)
+		assert.Equal(t, "value1b", value1)
+		// assert that error tags persist the first value
+		span2 := oneSpanTracer.StartSpan("span2", wtracing.WithSpanTag("error", "value2a"))
+		span2.Tag("error", "value2b")
+		span2.Finish()
+		value2, ok2 := oneSpanReporter.spanModel.Tags["error"]
+		assert.True(t, ok2)
+		assert.Equal(t, "value2a", value2)
 	})
 }
 
@@ -110,7 +149,7 @@ func testWithParent(t *testing.T, tracer wtracing.Tracer) {
 		newSpan := tracer.StartSpan("testSpan",
 			wtracing.WithParent(testParentSpan),
 		)
-		newSpan.Tag("key","value")
+		newSpan.Tag("key", "value")
 	})
 }
 
