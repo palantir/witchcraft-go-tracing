@@ -1,6 +1,6 @@
 module github.com/palantir/witchcraft-go-tracing
 
-go 1.18
+go 1.19
 
 require (
 	github.com/openzipkin/zipkin-go v0.2.2
