@@ -12,7 +12,7 @@ github.com/openzipkin/zipkin-go/reporter
 ## explicit; go 1.20
 github.com/palantir/witchcraft-go-error
 github.com/palantir/witchcraft-go-error/internal/errors
-# github.com/palantir/witchcraft-go-params v1.22.0
+# github.com/palantir/witchcraft-go-params v1.23.0
 ## explicit; go 1.20
 github.com/palantir/witchcraft-go-params
 # github.com/pmezard/go-difflib v1.0.0
