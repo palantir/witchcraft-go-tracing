@@ -8,11 +8,11 @@ github.com/openzipkin/zipkin-go/idgenerator
 github.com/openzipkin/zipkin-go/model
 github.com/openzipkin/zipkin-go/propagation
 github.com/openzipkin/zipkin-go/reporter
-# github.com/palantir/witchcraft-go-error v1.26.0
+# github.com/palantir/witchcraft-go-error v1.27.0
 ## explicit; go 1.20
 github.com/palantir/witchcraft-go-error
 github.com/palantir/witchcraft-go-error/internal/errors
-# github.com/palantir/witchcraft-go-params v1.24.0
+# github.com/palantir/witchcraft-go-params v1.25.0
 ## explicit; go 1.20
 github.com/palantir/witchcraft-go-params
 # github.com/pmezard/go-difflib v1.0.0
