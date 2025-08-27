@@ -5,7 +5,7 @@ go 1.25.0
 require (
 	github.com/openzipkin/zipkin-go v0.4.3
 	github.com/palantir/witchcraft-go-error v1.42.0
-	github.com/stretchr/testify v1.11.0
+	github.com/stretchr/testify v1.11.1
 )
 
 require (
