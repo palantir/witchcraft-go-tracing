@@ -24,7 +24,7 @@ import (
 )
 
 func TestTracerStartSpan(t *testing.T) {
-	reporterMap := make(map[string]interface{})
+	reporterMap := make(map[string]any)
 
 	tracer, err := wzipkin.NewTracer(&testReporter{
 		reporterMap: reporterMap,
@@ -52,7 +52,7 @@ func TestTracerStartSpan(t *testing.T) {
 }
 
 func TestTracerStartChildSpan(t *testing.T) {
-	reporterMap := make(map[string]interface{})
+	reporterMap := make(map[string]any)
 
 	tracer, err := wzipkin.NewTracer(&testReporter{
 		reporterMap: reporterMap,
@@ -84,7 +84,7 @@ func TestTracerStartChildSpan(t *testing.T) {
 }
 
 func TestTracerStartSpanWithTags(t *testing.T) {
-	reporterMap := make(map[string]interface{})
+	reporterMap := make(map[string]any)
 
 	tracer, err := wzipkin.NewTracer(&testReporter{
 		reporterMap: reporterMap,
@@ -112,7 +112,7 @@ func TestTracerStartSpanWithTags(t *testing.T) {
 }
 
 type testReporter struct {
-	reporterMap map[string]interface{}
+	reporterMap map[string]any
 }
 
 func (r *testReporter) Send(span wtracing.SpanModel) {
