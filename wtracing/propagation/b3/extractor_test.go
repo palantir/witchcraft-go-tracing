@@ -177,13 +177,3 @@ func werrorsEqual(t *testing.T, wantErr, gotErr error) {
 	assert.Equal(t, safeParams1, safeParams2, "SafeParams not equal")
 	assert.Equal(t, unsafeParams1, unsafeParams2, "UnsafeParams not equal")
 }
-
-//go:fix inline
-func strPtr(in string) *string {
-	return new(in)
-}
-
-//go:fix inline
-func boolPtr(in bool) *bool {
-	return new(in)
-}
