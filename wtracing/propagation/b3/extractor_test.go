@@ -47,8 +47,8 @@ func TestSpanExtractor(t *testing.T) {
 			want: wtracing.SpanContext{
 				TraceID:  idHexVal,
 				ID:       idHexVal,
-				ParentID: (*wtracing.SpanID)(strPtr(otherIDHexVal)),
-				Sampled:  boolPtr(true),
+				ParentID: (*wtracing.SpanID)(new(otherIDHexVal)),
+				Sampled:  new(true),
 			},
 		},
 		{
@@ -57,7 +57,7 @@ func TestSpanExtractor(t *testing.T) {
 				"X-B3-Sampled": "1",
 			},
 			want: wtracing.SpanContext{
-				Sampled: boolPtr(true),
+				Sampled: new(true),
 				Err:     werror.Error("TraceID missing; SpanID missing"),
 			},
 		},
@@ -69,7 +69,7 @@ func TestSpanExtractor(t *testing.T) {
 			},
 			want: wtracing.SpanContext{
 				TraceID: idHexVal,
-				Sampled: boolPtr(true),
+				Sampled: new(true),
 				Err:     werror.Error("SpanID missing"),
 			},
 		},
@@ -81,7 +81,7 @@ func TestSpanExtractor(t *testing.T) {
 			},
 			want: wtracing.SpanContext{
 				ID:      idHexVal,
-				Sampled: boolPtr(true),
+				Sampled: new(true),
 				Err:     werror.Error("TraceID missing"),
 			},
 		},
@@ -94,8 +94,8 @@ func TestSpanExtractor(t *testing.T) {
 			},
 			want: wtracing.SpanContext{
 				ID:       idHexVal,
-				ParentID: (*wtracing.SpanID)(strPtr(otherIDHexVal)),
-				Sampled:  boolPtr(true),
+				ParentID: (*wtracing.SpanID)(new(otherIDHexVal)),
+				Sampled:  new(true),
 				Err:      werror.Error("TraceID missing; ParentID present but TraceID missing"),
 			},
 		},
@@ -108,8 +108,8 @@ func TestSpanExtractor(t *testing.T) {
 			},
 			want: wtracing.SpanContext{
 				TraceID:  idHexVal,
-				ParentID: (*wtracing.SpanID)(strPtr(otherIDHexVal)),
-				Sampled:  boolPtr(true),
+				ParentID: (*wtracing.SpanID)(new(otherIDHexVal)),
+				Sampled:  new(true),
 				Err:      werror.Error("SpanID missing; ParentID present but SpanID missing"),
 			},
 		},
@@ -120,8 +120,8 @@ func TestSpanExtractor(t *testing.T) {
 				"X-B3-Sampled":      "1",
 			},
 			want: wtracing.SpanContext{
-				ParentID: (*wtracing.SpanID)(strPtr(otherIDHexVal)),
-				Sampled:  boolPtr(true),
+				ParentID: (*wtracing.SpanID)(new(otherIDHexVal)),
+				Sampled:  new(true),
 				Err:      werror.Error("TraceID missing; SpanID missing; ParentID present but TraceID and SpanID missing"),
 			},
 		},
@@ -176,12 +176,4 @@ func werrorsEqual(t *testing.T, wantErr, gotErr error) {
 
 	assert.Equal(t, safeParams1, safeParams2, "SafeParams not equal")
 	assert.Equal(t, unsafeParams1, unsafeParams2, "UnsafeParams not equal")
-}
-
-func strPtr(in string) *string {
-	return &in
-}
-
-func boolPtr(in bool) *bool {
-	return &in
 }

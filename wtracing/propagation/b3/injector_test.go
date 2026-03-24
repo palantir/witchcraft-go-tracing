@@ -35,9 +35,9 @@ func TestSpanInjector(t *testing.T) {
 			sc: wtracing.SpanContext{
 				TraceID:  idHexVal,
 				ID:       idHexVal,
-				ParentID: (*wtracing.SpanID)(strPtr(otherIDHexVal)),
+				ParentID: (*wtracing.SpanID)(new(otherIDHexVal)),
 				Debug:    false,
-				Sampled:  boolPtr(true),
+				Sampled:  new(true),
 			},
 			wantHeaderVals: map[string]string{
 				"X-B3-TraceId":      idHexVal,
@@ -51,9 +51,9 @@ func TestSpanInjector(t *testing.T) {
 			sc: wtracing.SpanContext{
 				TraceID: idHexVal,
 				// SpanID is missing, so span is not valid
-				ParentID: (*wtracing.SpanID)(strPtr(otherIDHexVal)),
+				ParentID: (*wtracing.SpanID)(new(otherIDHexVal)),
 				Debug:    false,
-				Sampled:  boolPtr(true),
+				Sampled:  new(true),
 			},
 			wantHeaderVals: map[string]string{
 				"X-B3-Sampled": "1",
@@ -64,9 +64,9 @@ func TestSpanInjector(t *testing.T) {
 			sc: wtracing.SpanContext{
 				TraceID:  idHexVal,
 				ID:       idHexVal,
-				ParentID: (*wtracing.SpanID)(strPtr(otherIDHexVal)),
+				ParentID: (*wtracing.SpanID)(new(otherIDHexVal)),
 				Debug:    true,
-				Sampled:  boolPtr(true),
+				Sampled:  new(true),
 			},
 			wantHeaderVals: map[string]string{
 				"X-B3-TraceId":      idHexVal,
