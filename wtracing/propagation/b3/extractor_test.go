@@ -52,13 +52,12 @@ func TestSpanExtractor(t *testing.T) {
 			},
 		},
 		{
-			name: "Error if both TraceID and SpanID absent",
+			name: "Sampled alone with no TraceID or SpanID is valid",
 			headerVals: map[string]string{
 				"X-B3-Sampled": "1",
 			},
 			want: wtracing.SpanContext{
 				Sampled: new(true),
-				Err:     werror.Error("TraceID missing; SpanID missing"),
 			},
 		},
 		{
