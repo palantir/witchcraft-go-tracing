@@ -49,21 +49,19 @@ func SpanExtractor(req *http.Request) wtracing.SpanExtractor {
 			sc.ParentID = (*wtracing.SpanID)(&parentID)
 		}
 
+		errMsgPrefix := ""
+		if parentID != "" {
+			errMsgPrefix = "ParentID present but "
+		}
 		switch {
 		case traceID == "" && spanID == "":
 			if parentID != "" {
-				errMsgs = append(errMsgs, "TraceID missing", "SpanID missing", "ParentID present but TraceID and SpanID missing")
+				errMsgs = append(errMsgs, errMsgPrefix+"TraceID and SpanID missing")
 			}
 		case traceID == "":
-			errMsgs = append(errMsgs, "TraceID missing")
-			if parentID != "" {
-				errMsgs = append(errMsgs, "ParentID present but TraceID missing")
-			}
+			errMsgs = append(errMsgs, errMsgPrefix+"TraceID missing")
 		case spanID == "":
-			errMsgs = append(errMsgs, "SpanID missing")
-			if parentID != "" {
-				errMsgs = append(errMsgs, "ParentID present but SpanID missing")
-			}
+			errMsgs = append(errMsgs, errMsgPrefix+"SpanID missing")
 		}
 
 		var sampledVal *bool

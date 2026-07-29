@@ -95,7 +95,7 @@ func TestSpanExtractor(t *testing.T) {
 				ID:       idHexVal,
 				ParentID: (*wtracing.SpanID)(new(otherIDHexVal)),
 				Sampled:  new(true),
-				Err:      werror.Error("TraceID missing; ParentID present but TraceID missing"),
+				Err:      werror.Error("ParentID present but TraceID missing"),
 			},
 		},
 		{
@@ -109,7 +109,7 @@ func TestSpanExtractor(t *testing.T) {
 				TraceID:  idHexVal,
 				ParentID: (*wtracing.SpanID)(new(otherIDHexVal)),
 				Sampled:  new(true),
-				Err:      werror.Error("SpanID missing; ParentID present but SpanID missing"),
+				Err:      werror.Error("ParentID present but SpanID missing"),
 			},
 		},
 		{
@@ -121,7 +121,7 @@ func TestSpanExtractor(t *testing.T) {
 			want: wtracing.SpanContext{
 				ParentID: (*wtracing.SpanID)(new(otherIDHexVal)),
 				Sampled:  new(true),
-				Err:      werror.Error("TraceID missing; SpanID missing; ParentID present but TraceID and SpanID missing"),
+				Err:      werror.Error("ParentID present but TraceID and SpanID missing"),
 			},
 		},
 		{
