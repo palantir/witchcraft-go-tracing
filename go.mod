@@ -6,7 +6,7 @@ toolchain go1.26.7
 
 require (
 	github.com/openzipkin/zipkin-go v0.4.3
-	github.com/palantir/witchcraft-go-error v1.47.0
+	github.com/palantir/witchcraft-go-error v1.48.0
 	github.com/stretchr/testify v1.12.1
 )
 
