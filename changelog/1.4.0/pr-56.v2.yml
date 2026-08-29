@@ -1,5 +1,0 @@
-type: improvement
-improvement:
-  description: Add tag functionality to spans that have been created
-  links:
-  - https://github.com/palantir/witchcraft-go-tracing/pull/56
