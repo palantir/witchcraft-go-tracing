@@ -11,6 +11,6 @@ require (
 )
 
 require (
-	github.com/palantir/witchcraft-go-params v1.46.0 // indirect
+	github.com/palantir/witchcraft-go-params v1.47.0 // indirect
 	go.yaml.in/yaml/v3 v3.0.5 // indirect
 )
