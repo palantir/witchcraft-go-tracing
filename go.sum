@@ -1,7 +1,7 @@
 github.com/openzipkin/zipkin-go v0.4.3 h1:9EGwpqkgnwdEIJ+Od7QVSEIH+ocmm5nPat0G7sjsSdg=
 github.com/openzipkin/zipkin-go v0.4.3/go.mod h1:M9wCJZFWCo2RiY+o1eBCEMe0Dp2S5LDHcMZmk3RmK7c=
-github.com/palantir/witchcraft-go-error v1.51.0 h1:wmlzMm/7rj0SGHhuSe5NAsKSi7ICmFFUSFKOrJSlG+U=
-github.com/palantir/witchcraft-go-error v1.51.0/go.mod h1:tqPzDsIBZnH1wJ9hjbeYJtIDEFZS5v8sKNUmRRNeBy0=
+github.com/palantir/witchcraft-go-error v1.52.0 h1:F8day0K4Gw27j2LBDaVfZwamJi1xgfrZzREFioGozYI=
+github.com/palantir/witchcraft-go-error v1.52.0/go.mod h1:0QtYJxZT4kImF23FvUBOXM9djDraot7nxlMBp2rvxkk=
 github.com/palantir/witchcraft-go-params v1.51.0 h1:YtpoTK3WIcmSvsg+5RH1JqjF6xVzMHVgpAvIFVfpGgM=
 github.com/palantir/witchcraft-go-params v1.51.0/go.mod h1:12K0HWtdMRULr0FHr/lvV2JvEodvPo1rpurliig9W20=
 github.com/stretchr/testify v1.12.1 h1:EuwCh5fleGS7H32xRwO3wRGT7DxrDhLAT6FF8MpWDWE=
